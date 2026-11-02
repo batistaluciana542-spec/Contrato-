@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Instrumento Particular de Prestação de Serviços</title>
+<style>
+:root {
+  --site-primary: #17243a;
+  --site-secondary: #b08b52;
+  --site-background: #e9e7e1;
+  --site-on-primary: #ffffff;
+  --site-on-secondary: #171717;
+  --site-on-background: #20242b;
+  --site-font-body: Georgia, "Times New Roman", serif;
+  --site-font-heading: Arial, Helvetica, sans-serif;
+  --site-heading-scale: 1;
+  --site-spacing-scale: 1;
+  --site-radius-scale: 1;
+  --site-decoration-opacity: 1;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--site-background); color: var(--site-on-background); font-family: var(--site-font-body); }
+#app { min-height: 100vh; width: 100%; background-color: var(--site-background); border-radius: 0; }
+.topbar { background: var(--site-primary); color: var(--site-on-primary); padding: 17px 5vw; display:flex; justify-content:space-between; align-items:center; gap:16px; font: 12px var(--site-font-heading); letter-spacing:2px; }
+.topbar strong { font-size: 13px; }
+.topbar span { opacity:.75; }
+.hero { background: var(--site-primary); color: var(--site-on-primary); padding: 52px 20px 72px; text-align:center; border-bottom: 5px solid var(--site-secondary); }
+.eyebrow { color:#d8bd91; letter-spacing:4px; font: 11px var(--site-font-heading); text-transform:uppercase; }
+.hero h1 { font: 700 calc(30px * var(--site-heading-scale))/1.15 var(--site-font-heading); letter-spacing:1.5px; max-width:850px; margin:18px auto 12px; }
+.hero p { margin:0; color:#d9dee6; font-size:15px; }
+main { max-width:920px; margin:-34px auto 60px; padding:0 18px; position:relative; }
+.paper { background: light-dark(#fffefa,#20242a); color:light-dark(#252525,#f2f0eb); border:1px solid light-dark(#d8d2c7,#444); box-shadow:0 18px 55px #10182720; padding:clamp(22px,5vw,58px); }
+.doc-head { text-align:center; border-bottom:1px solid #b9a98e; padding-bottom:25px; margin-bottom:28px; }
+.doc-head .seal { color:var(--site-secondary); font: 28px var(--site-font-heading); }
+.doc-head h2 { font:700 17px var(--site-font-heading); letter-spacing:1.5px; margin:12px 0 7px; }
+.doc-head p { font:11px var(--site-font-heading); letter-spacing:1.3px; color:light-dark(#777,#bbb); margin:0; }
+.notice { background:light-dark(#f4f0e8,#34302a); border-left:4px solid var(--site-secondary); padding:14px 17px; font:13px/1.6 var(--site-font-heading); margin:22px 0 28px; }
+h3 { font:700 13px var(--site-font-heading); letter-spacing:1px; text-transform:uppercase; margin:27px 0 10px; color:light-dark(#24344d,#d8bd91); }
+p, li { font-size:15px; line-height:1.75; }
+p { margin:8px 0; }
+ol { padding-left:23px; margin:8px 0; }
+li { padding-left:5px; margin:7px 0; }
+.fields { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:18px 0 24px; }
+.field { display:flex; flex-direction:column; gap:6px; font:11px var(--site-font-heading); letter-spacing:.6px; color:light-dark(#5b6068,#c3c7cf); }
+input, textarea { width:100%; padding:12px 11px; border:1px solid light-dark(#c9c4ba,#555); background:light-dark(#fff,#292e36); color:light-dark(#222,#fff); font:14px var(--site-font-body); border-radius:2px; outline:none; }
+input:focus, textarea:focus { border-color:var(--site-secondary); box-shadow:0 0 0 2px #b08b5222; }
+.full { grid-column:1/-1; }
+.payment { display:flex; justify-content:space-between; align-items:center; gap:15px; border:1px solid #b9a98e; padding:18px; margin:20px 0; }
+.payment small { display:block; font:10px var(--site-font-heading); letter-spacing:1px; color:light-dark(#777,#bbb); }
+.amount { font:700 30px var(--site-font-heading); color:var(--site-secondary); white-space:nowrap; }
+.signatures { display:grid; grid-template-columns:1fr 1fr; gap:35px; margin:42px 0 20px; }
+.sigline { border-top:1px solid light-dark(#777,#aaa); padding-top:9px; font:11px/1.5 var(--site-font-heading); color:light-dark(#555,#ccc); text-align:center; }
+.signature-preview { min-height:26px; font:italic 20px cursive; color:light-dark(#263b5a,#d9bd8d); text-align:center; overflow-wrap:anywhere; }
+.actions { display:flex; gap:12px; flex-wrap:wrap; margin-top:28px; }
+button { border:0; padding:14px 18px; cursor:pointer; font:700 11px var(--site-font-heading); letter-spacing:1px; text-transform:uppercase; }
+.primary { background:var(--site-primary); color:white; flex:1; }
+.secondary { background:transparent; border:1px solid light-dark(#9b927f,#777); color:light-dark(#343434,#eee); }
+.status { min-height:22px; margin-top:14px; font:12px var(--site-font-heading); color:light-dark(#53644d,#b9d5a8); }
+footer { text-align:center; padding:0 20px 40px; color:light-dark(#6d6d6d,#aaa); font:10px/1.7 var(--site-font-heading); letter-spacing:1px; }
+@media(max-width:620px) { .fields,.signatures { grid-template-columns:1fr; } .full {grid-column:auto;} .topbar {padding:14px 18px;} .topbar span {font-size:9px;} .hero {padding:42px 18px 62px;} .payment {align-items:flex-start; flex-direction:column;} }
+@media print {
+ body { background:white; }
+ .topbar,.hero,.actions,.status,footer { display:none !important; }
+ main { margin:0; max-width:none; padding:0; }
+ .paper { box-shadow:none; border:0; padding:10mm; background:white !important; color:#111 !important; }
+ input,textarea { border:0; border-bottom:1px solid #aaa; background:white !important; color:#111 !important; padding:5px 0; }
+ .notice { background:#f4f0e8 !important; }
+}
+</style>
+</head>
+<body>
+<div id="app">
+  <div class="topbar"><strong>DEPARTAMENTO DE ACORDOS</strong><span>DOCUMENTO Nº 100-A / EDIÇÃO 2026</span></div>
+  <header class="hero">
+    <div class="eyebrow">Instrumento particular</div>
+    <h1>CONTRATO DE PRESTAÇÃO DE SERVIÇOS DIGITAIS</h1>
+    <p>Organização, transferência e disponibilização de arquivos em dispositivo USB</p>
+  </header>
+  <main>
+    <article class="paper">
+      <div class="doc-head">
+        <div class="seal">§</div>
+        <h2>TERMO DE CONTRATAÇÃO E RESPONSABILIDADE</h2>
+        <p>ACORDO INFORMAL ENTRE AS PARTES • MODELO RECREATIVO</p>
+      </div>
+      <div class="notice"><strong>AVISO:</strong> Este documento é um modelo recreativo, criado para fins de brincadeira e organização do combinado. Não constitui aconselhamento jurídico nem substitui um contrato formal revisado pelas partes responsáveis.</div>
+
+      <p>Por este instrumento particular, as partes abaixo identificadas declaram que leram e compreenderam as condições descritas neste documento, estabelecendo um acordo referente à preparação e à transferência de arquivos digitais para um dispositivo de armazenamento USB (pendrive).</p>
+
+      <h3>1. Identificação das partes</h3>
+      <div class="fields">
+        <label class="field">CONTRATANTE (QUEM SOLICITA O SERVIÇO)<input id="contratante" placeholder="Nome completo"></label>
+        <label class="field">CONTRATADO<input id="contratado" value="Anthony" placeholder="Nome do responsável"></label>
+        <label class="field full">DESCRIÇÃO DO PENDRIVE / DISPOSITIVO<input id="dispositivo" placeholder="Ex.: pendrive preto, 32 GB"></label>
+      </div>
+
+      <h3>2. Objeto do acordo</h3>
+      <p><strong>2.1.</strong> O presente acordo tem como objeto a prestação, pelo CONTRATADO, do serviço de recebimento, organização básica e gravação dos arquivos digitais indicados pelo CONTRATANTE em um pendrive fornecido ou autorizado por este.</p>
+      <p><strong>2.2.</strong> O serviço limita-se à transferência dos arquivos disponibilizados. Não inclui criação, edição, recuperação, conversão ou aquisição de conteúdos, salvo se houver novo combinado expresso entre as partes.</p>
+
+      <h3>3. Valor e forma de pagamento</h3>
+      <div class="payment"><div><small>VALOR TOTAL COMBINADO</small><strong>Prestação do serviço de transferência</strong></div><div class="amount">R$ 100,00</div></div>
+      <p><strong>3.1.</strong> Pela realização do serviço descrito, o CONTRATANTE pagará ao CONTRATADO o valor total de <strong>R$ 100,00 (cem reais)</strong>.</p>
+      <p><strong>3.2.</strong> A forma e o momento do pagamento serão definidos entre as partes antes da execução do serviço.</p>
+      <p><strong>3.3.</strong> Qualquer custo adicional deverá ser informado e aceito previamente pelo CONTRATANTE. Nenhuma cobrança surpresa será considerada parte deste acordo.</p>
+
+      <h3>4. Obrigações do contratado</h3>
+      <ol>
+        <li>Realizar a transferência dos arquivos fornecidos ou indicados pelo CONTRATANTE.</li>
+        <li>Utilizar o dispositivo indicado com cuidado razoável, evitando alterações desnecessárias em seu conteúdo.</li>
+        <li>Informar ao CONTRATANTE caso algum arquivo não possa ser transferido ou apresente problema de leitura.</li>
+        <li>Entregar o pendrive ao CONTRATANTE após a conclusão do serviço.</li>
+        <li>Não compartilhar os arquivos recebidos com terceiros sem autorização.</li>
+      </ol>
+
+      <h3>5. Obrigações do contratante</h3>
+      <ol>
+        <li>Fornecer o pendrive em condições adequadas de uso e com espaço suficiente.</li>
+        <li>Indicar corretamente quais arquivos deverão ser transferidos.</li>
+        <li>Verificar se possui autorização para utilizar e copiar os arquivos fornecidos.</li>
+        <li>Realizar o pagamento de R$ 100,00 conforme combinado entre as partes.</li>
+        <li>Conferir os arquivos após a entrega e comunicar eventuais problemas em prazo razoável.</li>
+      </ol>
+
+      <h3>6. Prazo e conclusão</h3>
+      <div class="fields">
+        <label class="field">DATA PREVISTA PARA ENTREGA<input id="dataEntrega" type="date"></label>
+        <label class="field">QUANTIDADE APROXIMADA DE ARQUIVOS<input id="quantidade" placeholder="Ex.: 250 arquivos"></label>
+      </div>
+      <p><strong>6.1.</strong> O prazo dependerá da quantidade, do tamanho e das condições dos arquivos e do dispositivo utilizado.</p>
+      <p><strong>6.2.</strong> O serviço será considerado concluído após a transferência e a disponibilização do pendrive ao CONTRATANTE para conferência.</p>
+
+      <h3>7. Conferência e integridade dos arquivos</h3>
+      <p><strong>7.1.</strong> O CONTRATADO deverá informar qualquer falha identificada durante a transferência. O CONTRATANTE deverá conferir os arquivos recebidos antes de apagar ou descartar qualquer cópia original.</p>
+      <p><strong>7.2.</strong> Recomenda-se que o CONTRATANTE mantenha uma cópia de segurança dos arquivos importantes. Dispositivos eletrônicos, como se sabe, têm o péssimo hábito de falhar nos momentos mais inconvenientes.</p>
+
+      <h3>8. Limites do serviço</h3>
+      <p><strong>8.1.</strong> O CONTRATADO não será responsável por defeitos preexistentes nos arquivos ou no pendrive, nem por arquivos ilegíveis, corrompidos ou protegidos por senha não fornecida.</p>
+      <p><strong>8.2.</strong> O CONTRATADO não deverá apagar arquivos originais ou realizar formatação do dispositivo sem autorização expressa do CONTRATANTE.</p>
+
+      <h3>9. Privacidade e confidencialidade</h3>
+      <p><strong>9.1.</strong> As partes comprometem-se a respeitar a privacidade dos conteúdos envolvidos no serviço. Os arquivos deverão ser utilizados exclusivamente para a finalidade descrita neste acordo.</p>
+      <p><strong>9.2.</strong> Após a entrega, o CONTRATADO deverá eliminar cópias temporárias que não sejam mais necessárias, quando isso for tecnicamente possível e adequado.</p>
+
+      <h3>10. Cancelamento e alterações</h3>
+      <p><strong>10.1.</strong> Qualquer alteração no escopo, no prazo ou no valor deverá ser combinada pelas partes antes de ser realizada.</p>
+      <p><strong>10.2.</strong> Caso o serviço não possa ser realizado, as partes deverão conversar para definir uma solução justa, inclusive eventual devolução de valores pagos por serviço não executado.</p>
+
+      <h3>11. Declaração de entendimento</h3>
+      <p>As partes declaram que compreenderam o objeto do serviço, o valor de R$ 100,00, as responsabilidades descritas e as condições de entrega. Este termo registra o combinado de maneira clara, sem substituir as regras legais aplicáveis.</p>
+
+      <h3>12. Local, data e assinaturas</h3>
+      <div class="fields">
+        <label class="field">CIDADE<input id="cidade" placeholder="Cidade / Estado"></label>
+        <label class="field">DATA DA ASSINATURA<input id="dataAssinatura" type="date"></label>
+      </div>
+      <div class="fields">
+        <label class="field">NOME PARA ASSINATURA DO CONTRATANTE<input id="assinaturaContratante" placeholder="Digite seu nome"></label>
+        <label class="field">NOME PARA ASSINATURA DO CONTRATADO<input id="assinaturaContratado" placeholder="Anthony"></label>
+      </div>
+      <div class="signatures">
+        <div><div class="signature-preview" id="previewA"></div><div class="sigline">CONTRATANTE<br>Assinatura / confirmação</div></div>
+        <div><div class="signature-preview" id="previewB"></div><div class="sigline">CONTRATADO<br>Assinatura / confirmação</div></div>
+      </div>
+      <div class="notice">Ao preencher os campos e selecionar “Imprimir / salvar em PDF”, será gerada uma cópia para conferência. Digitar um nome neste site não equivale, por si só, a uma assinatura eletrônica certificada.</div>
+      <div class="actions">
+        <button class="primary" onclick="window.print()">Imprimir / salvar em PDF</button>
+        <button class="secondary" onclick="limparCampos()">Limpar campos</button>
+      </div>
+      <div class="status" id="status" aria-live="polite"></div>
+    </article>
+  </main>
+  <footer>DOCUMENTO MODELO • LEIA TODAS AS CLÁUSULAS ANTES DE CONFIRMAR<br>UMA CÓPIA DEVE FICAR DISPONÍVEL PARA CADA PARTE</footer>
+</div>
+<script>
+const campos = ["contratante","contratado","dispositivo","dataEntrega","quantidade","cidade","dataAssinatura","assinaturaContratante","assinaturaContratado"];
+function atualizarAssinaturas() {
+  document.getElementById("previewA").textContent = document.getElementById("assinaturaContratante").value;
+  document.getElementById("previewB").textContent = document.getElementById("assinaturaContratado").value;
+}
+campos.forEach(id => {
+  const el = document.getElementById(id);
+  el.addEventListener("input", atualizarAssinaturas);
+});
+function limparCampos() {
+  campos.forEach(id => {
+    const el = document.getElementById(id);
+    if (id === "contratado") el.value = "Anthony";
+    else el.value = "";
+  });
+  atualizarAssinaturas();
+  document.getElementById("status").textContent = "Campos limpos.";
+}
+document.getElementById("dataAssinatura").value = new Date().toISOString().slice(0,10);
+</script>
+</body>
+</html>
